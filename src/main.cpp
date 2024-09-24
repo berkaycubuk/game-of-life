@@ -148,19 +148,6 @@ std::vector<std::vector<int>> generateWorld(int rows, int cols) {
         }
     }
 
-    /*
-    world[8][2] = 1;
-    world[8][3] = 1;
-    world[8][4] = 1;
-
-    // Glider
-    world[2][7] = 1;
-    world[3][7] = 1;
-    world[3][5] = 1;
-    world[4][7] = 1;
-    world[4][6] = 1;
-    */
-
     return world;
 }
 
@@ -201,14 +188,32 @@ int countNeighbors(std::vector<std::vector<int>>* world, int row, int col, int w
         for (int j = -1; j < 2; j++) {
             if (j == 0 && i == 0) continue; // Skip self
 
-            const int newRow = row + i;
-            const int newCol = col + j;
+            int newRow = row + i;
+            int newCol = col + j;
 
+            if (newRow < 0) {
+                newRow += worldSize;
+            } else if (newRow > worldSize - 1) {
+                newRow -= worldSize;
+            }
+
+            if (newCol < 0) {
+                newCol += worldSize;
+            } else if (newCol > worldSize - 1) {
+                newCol -= worldSize;
+            }
+
+            if ((*world)[newRow][newCol] == 1) {
+                counter++;
+            }
+
+            /*
             if (newRow >= 0 && newRow < worldSize - 1 && newCol >= 0 && newCol < worldSize - 1) {
-                if ((*world)[row + i][col + j] == 1) {
+                if ((*world)[newRow][newCol] == 1) {
                     counter++;
                 }
             }
+            */
         }
     }
 
